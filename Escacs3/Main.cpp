@@ -362,7 +362,7 @@ float testMovePiece()
     cout << "Comment :=>>" << endl;
 
     Chessboard board;
-    board.LoadBoardFromFile("./Data/tauler_2.txt");
+    board.LoadBoardFromFile("C:/Users/gerar/source/repos/Escacs3/x64/Debug/tauler_2.txt");
 
 
     const int NUM_PROVES = 6;

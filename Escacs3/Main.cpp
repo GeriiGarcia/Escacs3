@@ -240,7 +240,7 @@ float testValid(const string& nomFitxer, string posicions[], string moviments[][
     cout << "Comment :=>>" << endl;
 
     Chessboard board;
-    board.LoadBoardFromFile("./Data/" + nomFitxer);
+    board.LoadBoardFromFile("C:/Users/gerar/source/repos/Escacs3/x64/Debug/" + nomFitxer);
 
     for (int i = 0; i < nPosicions; i++)
     {

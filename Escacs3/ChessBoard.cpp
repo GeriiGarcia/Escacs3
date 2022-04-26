@@ -306,7 +306,7 @@ void Chessboard::analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos)
 
 	// Fem una variable que guarda el color contrari
 	ChessPieceColor colorOposat = CPC_Black;
-	if(GetPieceColorAtPos(pos) == CPC_White)
+	if(GetPieceColorAtPos(pos) == CPC_Black)
 		colorOposat = CPC_White;
 
 	// fem una variable direcció que ens indiqui a quina direccio es mou el peo (depenent del color)
@@ -343,7 +343,7 @@ void Chessboard::analisiDiagonals(const ChessPosition& pos, VecOfPositions& vect
 	
 	// Fem una variable que guarda el color contrari
 	ChessPieceColor colorOposat = CPC_Black;
-	if(GetPieceColorAtPos(pos) == CPC_White)
+	if(GetPieceColorAtPos(pos) == CPC_Black)
 		colorOposat = CPC_White;
 
 
@@ -430,7 +430,7 @@ void Chessboard::analisiHoritzontals(const ChessPosition& pos, VecOfPositions& v
 	posAuxiliar.setPosicioY(pos.getPosicioY());
 
 	ChessPieceColor colorOposat = CPC_Black;
-	if(GetPieceColorAtPos(pos) == CPC_White)
+	if(GetPieceColorAtPos(pos) == CPC_Black)
 		colorOposat = CPC_White;
 
 	// Horitzontal E
@@ -476,7 +476,7 @@ void Chessboard::analisiVerticals(const ChessPosition& pos, VecOfPositions& vect
 	posAuxiliar.setPosicioX(pos.getPosicioX());
 
 	ChessPieceColor colorOposat = CPC_Black;
-	if(GetPieceColorAtPos(pos) == CPC_White)
+	if(GetPieceColorAtPos(pos) == CPC_Black)
 		colorOposat = CPC_White;
 
 	//Vertical N

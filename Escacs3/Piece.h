@@ -21,7 +21,7 @@ typedef enum
 	CPT_EMPTY
 }ChessPieceType;
 
-typedef enum
+typedef enum 
 {
 	// S'assigna un nom per a cada color de la Piece
 	CPC_Black,
@@ -40,7 +40,7 @@ public:
 	//setters
 	void setColor(ChessPieceColor color) { m_color = color; }
 	void setTipus(ChessPieceType tipus) { m_tipus = tipus; }
-	void setMoguda(int moguda) { m_moguda = moguda; }
+	void setMoguda(bool moguda) { m_moguda = moguda; }
 
 	//getters
 	ChessPieceColor getColor() const { return m_color; }

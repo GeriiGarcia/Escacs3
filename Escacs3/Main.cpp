@@ -424,8 +424,13 @@ int main(int argc, const char* argv[])
     cout << "Grade :=>> " << grade << endl;
 
 
+    // saps posAuxiliar no? 
+    //bé, dons nosaltres l'hem declarat fora del switch case 
+    // el que he fet es modificar la funcio analisiVertical() de forma que no demani cap parametre posAuxiliar i que en comptes crei la seva propia pos aux
+    //
 
     float reduccio = 0;
+    
     // -------------------------------------------------
     // TEST 1: Carregar el tauler inicial de fitxer
     reduccio = testLoadBoard();
@@ -433,6 +438,7 @@ int main(int argc, const char* argv[])
     if (grade < 0)
         grade = 0;
     cout << "Grade :=>> " << grade << endl;
+        
 
     // -------------------------------------------------
     // TEST 2: Comprovar moviments v�lids

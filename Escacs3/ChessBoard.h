@@ -31,11 +31,11 @@ public:
     void setNovaPiece(ChessPosition pos, ChessPieceColor color, ChessPieceType tipus, int moguda);
     bool posicioDinsVector(const ChessPosition& pos, VecOfPositions vectorPos);
 
-    void analisiDiagonals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos);
-    void analisiVerticals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos);
-    void analisiHoritzontals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos);
-    void analisiPeo(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos);
-    void analisiCavall(ChessPosition posAuxiliar, const ChessPosition& pos, VecOfPositions vectorPos);
+    void analisiDiagonals(const ChessPosition& pos, VecOfPositions& vectorPos);
+    void analisiVerticals(const ChessPosition& pos, VecOfPositions& vectorPos);
+    void analisiHoritzontals(const ChessPosition& pos, VecOfPositions& vectorPos);
+    void analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos);
+    void analisiCavall(const ChessPosition& pos, VecOfPositions& vectorPos);
 private:
     Piece m_tauler[NUM_COLS][NUM_ROWS];
 

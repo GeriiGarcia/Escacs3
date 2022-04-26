@@ -39,7 +39,7 @@ string Piece::pieceToString() const
 		break;
 
 	case CPT_Rook:
-		str.append("T");
+		str.append("R");
 		break;
 
 	case CPT_Knight:

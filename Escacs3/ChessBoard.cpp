@@ -40,39 +40,32 @@ VecOfPositions Chessboard::GetValidMoves(const ChessPosition& pos)
 		break;
 
 	case CPT_Queen: //amb diagonal NE em refereixo a la diagonal de adalt a la dreta ns  si m'entens rbro v 
-
-		analisiDiagonals(posAuxiliar, pos, vectorPos);
-
-		analisiHoritzontals(posAuxiliar, pos, vectorPos);
-
-		analisiVerticals(posAuxiliar, pos, vectorPos);
+		analisiDiagonals(pos, vectorPos);
+		analisiHoritzontals(pos, vectorPos);
+		analisiVerticals(pos, vectorPos);
 
 		break;
 
 	case CPT_Rook:
-
-		analisiHoritzontals(posAuxiliar, pos, vectorPos);
-
-		analisiVerticals(posAuxiliar, pos, vectorPos);
+		analisiHoritzontals(pos, vectorPos);
+		analisiVerticals(pos, vectorPos);
 
 		break;
 
-	case CPT_Knight: // ----------------------------------------------- CABALL
-		//ChessPosition posAuxiliar;
-
-		analisiCavall(posAuxiliar, pos, vectorPos);
+	case CPT_Knight: // ----------------------------------------------- CAVALL
+		analisiCavall(pos, vectorPos);
 
 		break;
 
 	case CPT_Bishop:
 
-		analisiDiagonals(posAuxiliar, pos, vectorPos);
+		analisiDiagonals(pos, vectorPos);
 
 		break;
 
 
 	case CPT_Pawn: // -------------------------------------------------- PEO
-		analisiPeo(posAuxiliar, pos, vectorPos);
+		analisiPeo(pos, vectorPos);
 		break;
 	}
 	return vectorPos;
@@ -212,8 +205,8 @@ void Chessboard::LoadBoardFromFile(const string& nomFitxer)
 		pos.setPosicioX(posHoritzontal);
 		pos.setPosicioY(posVertical);
 
-		m_tauler[posVertical][posHoritzontal].setColor(color);
-		m_tauler[posVertical][posHoritzontal].setTipus(tipus);
+		m_tauler[posHoritzontal][posVertical].setColor(color);
+		m_tauler[posHoritzontal][posVertical].setTipus(tipus);
 
 	} while (!fitxer.eof());
 
@@ -305,10 +298,16 @@ void Chessboard::setNovaPiece(ChessPosition pos, ChessPieceColor color, ChessPie
 
 
 // funcions per analitzar les posicions vàlides
-void Chessboard::analisiPeo(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos)
+void Chessboard::analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
-	//ChessPosition posAuxiliar;
+	//posAuxiliar
+	ChessPosition posAuxiliar;
 	posAuxiliar.setPosicioX(pos.getPosicioX());
+
+	// Fem una variable que guarda el color contrari
+	ChessPieceColor colorOposat = CPC_Black;
+	if(GetPieceColorAtPos(pos) == CPC_White)
+		colorOposat = CPC_White;
 
 	// fem una variable direcció que ens indiqui a quina direccio es mou el peo (depenent del color)
 	int direccio = 1;
@@ -316,157 +315,209 @@ void Chessboard::analisiPeo(ChessPosition& posAuxiliar, const ChessPosition& pos
 		direccio = -1;
 
 	// analitzem la posició frontal
-	posAuxiliar.setPosicioY((pos.getPosicioY() + 1) * direccio);
+	posAuxiliar.setPosicioY((pos.getPosicioY() + 1 * direccio) );
 	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == CPC_NONE)
 		vectorPos.push_back(posAuxiliar);
 
 
 	// analitzem les posicions diagonals frontals 
 	posAuxiliar.setPosicioX(pos.getPosicioX() - 1);
-	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) != GetPieceColorAtPos(pos))
+	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == colorOposat)
 		vectorPos.push_back(posAuxiliar);
 
 	posAuxiliar.setPosicioX(pos.getPosicioX() + 1);
-	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) != GetPieceColorAtPos(pos))
+	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == colorOposat)
 		vectorPos.push_back(posAuxiliar);
 
 
 	// analitzem la 2a posició frontal
-	posAuxiliar.setPosicioY((pos.getPosicioY() + 2) * direccio);
+	posAuxiliar.setPosicioX(pos.getPosicioX());
+	posAuxiliar.setPosicioY((pos.getPosicioY() + 2 * direccio) );
 	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == CPC_NONE && !getMogudaPiece(pos))
 		vectorPos.push_back(posAuxiliar);
 }
 
-void Chessboard::analisiDiagonals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos)
+void Chessboard::analisiDiagonals(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
-	int i = 0;
-	bool fiLinea = 0;
+	ChessPosition posAuxiliar;
+	
+	// Fem una variable que guarda el color contrari
+	ChessPieceColor colorOposat = CPC_Black;
+	if(GetPieceColorAtPos(pos) == CPC_White)
+		colorOposat = CPC_White;
 
-	posAuxiliar.setPosicioX(pos.getPosicioX() + i);		 //diagonal NE
+
+	// Diagonal NE
+	int i = 1;
+	bool fiLinea = false;
+	posAuxiliar.setPosicioX(pos.getPosicioX() + i);
 	posAuxiliar.setPosicioY(pos.getPosicioY() - i);
+	
 	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		// afegim la posicio al vector
+		vectorPos.push_back(posAuxiliar);
+		
+		// mirem que la posicio no sigui del conor oposat
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+
+		// cambiem posAuxiliar
 		i++;
 		posAuxiliar.setPosicioX(pos.getPosicioX() + i);
 		posAuxiliar.setPosicioY(pos.getPosicioY() - i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
 
-	i = 0;
+	// Diagonal NO
+	i = 1;
 	fiLinea = false;
-
-	posAuxiliar.setPosicioX(pos.getPosicioX() - i);   //diagonal NO
+	posAuxiliar.setPosicioX(pos.getPosicioX() - i); 
 	posAuxiliar.setPosicioY(pos.getPosicioY() - i);
-	while (posicioValida(posAuxiliar, pos))
+
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		vectorPos.push_back(posAuxiliar);
+		
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+		
 		i++;
 		posAuxiliar.setPosicioX(pos.getPosicioX() - i);
 		posAuxiliar.setPosicioY(pos.getPosicioY() - i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
 
-	i = 0;
+	// Diagonal SO
+	i = 1;
 	fiLinea = false;
-
-	posAuxiliar.setPosicioX(pos.getPosicioX() - i);   //diagonal SO
+	posAuxiliar.setPosicioX(pos.getPosicioX() - i);   
 	posAuxiliar.setPosicioY(pos.getPosicioY() + i);
-	while (posicioValida(posAuxiliar, pos))
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		vectorPos.push_back(posAuxiliar);
+		
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+
 		i++;
 		posAuxiliar.setPosicioX(pos.getPosicioX() - i);
 		posAuxiliar.setPosicioY(pos.getPosicioY() + i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
 
-	i = 0;
+	// Diagonal SE
+	i = 1;
 	fiLinea = false;
-
-	posAuxiliar.setPosicioX(pos.getPosicioX() + i);   //diagonal SE
+	posAuxiliar.setPosicioX(pos.getPosicioX() + i);  
 	posAuxiliar.setPosicioY(pos.getPosicioY() + i);
-	while (posicioValida(posAuxiliar, pos))
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		vectorPos.push_back(posAuxiliar);
+
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+
 		i++;
 		posAuxiliar.setPosicioX(pos.getPosicioX() + i);
 		posAuxiliar.setPosicioY(pos.getPosicioY() + i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
-
 
 }
 
-void Chessboard::analisiHoritzontals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos)
+void Chessboard::analisiHoritzontals(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
-	int i = 0;
+	ChessPosition posAuxiliar;
+	posAuxiliar.setPosicioY(pos.getPosicioY());
+
+	ChessPieceColor colorOposat = CPC_Black;
+	if(GetPieceColorAtPos(pos) == CPC_White)
+		colorOposat = CPC_White;
+
+	// Horitzontal E
+	int i = 1;
 	bool fiLinea = false;
-	posAuxiliar.setPosicioX(pos.getPosicioX() + i);   //horizontal E
-	while (posicioValida(posAuxiliar, pos))
+	posAuxiliar.setPosicioX(pos.getPosicioX() + i); 
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
-		i++;
-		posAuxiliar.setPosicioX(pos.getPosicioX() + i);
+		// Afegim la posicio al vector
 		vectorPos.push_back(posAuxiliar);
+
+		// Comprovem que no sigui del color oposat
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+
+		// Movem la posicio a analitzar
+		i++;
+		posAuxiliar.setPosicioX(pos.getPosicioX() + i);		
 	}
 
-	i = 0;
-	fiLinea = false;
 
-	posAuxiliar.setPosicioX(pos.getPosicioX() - i);   //horizontal O
-	while (posicioValida(posAuxiliar, pos))
+	// Horitzontal O
+	i = 1;
+	fiLinea = false;
+	posAuxiliar.setPosicioX(pos.getPosicioX() - i); 
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		vectorPos.push_back(posAuxiliar);
+
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+		
 		i++;
 		posAuxiliar.setPosicioX(pos.getPosicioX() - i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
 }
 
-void Chessboard::analisiVerticals(ChessPosition& posAuxiliar, const ChessPosition& pos, VecOfPositions& vectorPos)
+void Chessboard::analisiVerticals(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
-	int i = 0;
-	bool fiLinea = false;
+	ChessPosition posAuxiliar;
+	posAuxiliar.setPosicioX(pos.getPosicioX());
 
-	posAuxiliar.setPosicioY(pos.getPosicioY() + i);   //Vertical N
-	while (posicioValida(posAuxiliar, pos))
+	ChessPieceColor colorOposat = CPC_Black;
+	if(GetPieceColorAtPos(pos) == CPC_White)
+		colorOposat = CPC_White;
+
+	//Vertical N
+	int i = 1;
+	bool fiLinea = false;
+	posAuxiliar.setPosicioY(pos.getPosicioY() + i);   
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
-		i++;
-		posAuxiliar.setPosicioY(pos.getPosicioY() + i);
 		vectorPos.push_back(posAuxiliar);
 
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
 			fiLinea = true;
+
+		i++;
+		posAuxiliar.setPosicioY(pos.getPosicioY() + i);
 	}
 
-	i = 0;
-	fiLinea = false;
 
-	posAuxiliar.setPosicioY(pos.getPosicioY() - i);   //Vertical S
-	while (posicioValida(posAuxiliar, pos))
+	//Vertical S
+	i = 1;
+	fiLinea = false;
+	posAuxiliar.setPosicioY(pos.getPosicioY() - i);   
+	
+	while (posicioValida(posAuxiliar, pos) && !fiLinea)
 	{
+		vectorPos.push_back(posAuxiliar);
+
+		if (GetPieceColorAtPos(posAuxiliar) == colorOposat)
+			fiLinea = true;
+
 		i++;
 		posAuxiliar.setPosicioY(pos.getPosicioY() - i);
-		vectorPos.push_back(posAuxiliar);
-
-		if (GetPieceColorAtPos(pos) != GetPieceColorAtPos(posAuxiliar))
-			fiLinea = true;
 	}
 }
 
-void Chessboard::analisiCavall(ChessPosition posAuxiliar, const ChessPosition& pos, VecOfPositions vectorPos)
+void Chessboard::analisiCavall(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
-	// analitzem les posicions per columnes i només en les que es pot moure el caball
+	ChessPosition posAuxiliar;
+	
+	// analitzem les posicions per columnes i només en les que es pot moure el cavall
 	for (int i = -2; i <= 2; i++)
 	{
 		posAuxiliar.setPosicioX(pos.getPosicioX() + i);

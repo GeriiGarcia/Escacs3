@@ -27,8 +27,8 @@ public:
     bool posicioValida(ChessPosition posAuxiliar, ChessPosition pos);
     ChessPieceColor GetPieceColorAtPos(ChessPosition pos) const;
     ChessPieceType GetPieceTypeAtPos(ChessPosition pos) const;
-    bool getMogudaPiece(ChessPosition pos);
-    void setNovaPiece(ChessPosition pos, ChessPieceColor color, ChessPieceType tipus, int moguda);
+    bool getMogudaPiece(const ChessPosition pos);
+    void setNovaPiece(ChessPosition pos, ChessPieceColor color, ChessPieceType tipus, bool moguda);
     bool posicioDinsVector(const ChessPosition& pos, VecOfPositions vectorPos);
 
     void analisiDiagonals(const ChessPosition& pos, VecOfPositions& vectorPos);

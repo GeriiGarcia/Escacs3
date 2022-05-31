@@ -24,6 +24,9 @@
     <ClCompile Include="ChessBoard.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+	  <ClCompile Include="ValidMoves.cpp">
+		  <Filter>Archivos de origen</Filter>
+	  </ClCompile>
     <ClCompile Include="ChessPosition.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -38,5 +41,6 @@
     <ClInclude Include="ChessPosition.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+
   </ItemGroup>
 </Project>

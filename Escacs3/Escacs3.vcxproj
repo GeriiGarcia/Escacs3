@@ -143,6 +143,7 @@
     <ClCompile Include="ChessPosition.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Piece.cpp" />
+	  <ClCompile Include="ValidMoves.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChessBoard.h" />

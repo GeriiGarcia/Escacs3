@@ -6,6 +6,8 @@
 #include <fstream>
 #include "ChessPosition.h"
 
+
+
 using namespace std;
 
 // -+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+ enum

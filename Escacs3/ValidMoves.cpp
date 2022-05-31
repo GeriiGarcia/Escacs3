@@ -1,5 +1,6 @@
 #include "ChessBoard.h"
 
+
 VecOfPositions Chessboard::GetValidMoves(const ChessPosition& pos)
 {
 	/*
@@ -17,7 +18,7 @@ VecOfPositions Chessboard::GetValidMoves(const ChessPosition& pos)
 	switch (m_tauler[pos.getPosicioX()][pos.getPosicioY()].getTipus())
 	{
 	case CPT_King:
-		// analitzem cada posici√≥ que hi ha al voltant del rei i ens quedem amb les v√†lides
+		// analitzem cada posiciÛ que hi ha al voltant del rei i ens quedem amb les v‡lides
 		for (int i = -1; i <= 1; i++)
 		{
 			posAuxiliar.setPosicioX(pos.getPosicioX() + i);
@@ -66,7 +67,7 @@ VecOfPositions Chessboard::GetValidMoves(const ChessPosition& pos)
 }
 
 
-// funcions per analitzar les posicions v√†lides
+// funcions per analitzar les posicions v‡lides
 void Chessboard::analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos)
 {
 	//posAuxiliar
@@ -78,25 +79,25 @@ void Chessboard::analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos)
 	if (GetPieceColorAtPos(pos) == CPC_Black)
 		colorOposat = CPC_White;
 
-	// fem una variable direcci√≥ que ens indiqui a quina direccio es mou el peo (depenent del color)
+	// fem una variable direcciÛ que ens indiqui a quina direccio es mou el peo (depenent del color)
 	int direccio = 1;
 	if (GetPieceColorAtPos(pos) == CPC_White)
 		direccio = -1;
 
-	// analitzem la posici√≥ frontal
+	// analitzem la posiciÛ frontal
 	posAuxiliar.setPosicioY((pos.getPosicioY() + 1 * direccio));
 	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == CPC_NONE)
 	{
 		vectorPos.push_back(posAuxiliar);
 
-		// analitzem la 2a posici√≥ frontal
+		// analitzem la 2a posiciÛ frontal
 		posAuxiliar.setPosicioY((pos.getPosicioY() + 2 * direccio));
 		if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == CPC_NONE && !getMogudaPiece(pos))
 			vectorPos.push_back(posAuxiliar);
 	}
 
 	// analitzem les posicions diagonals frontals 
-	
+
 	posAuxiliar.setPosicioY((pos.getPosicioY() + 1 * direccio));
 	posAuxiliar.setPosicioX(pos.getPosicioX() - 1);
 	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == colorOposat)
@@ -106,7 +107,7 @@ void Chessboard::analisiPeo(const ChessPosition& pos, VecOfPositions& vectorPos)
 	if (posicioValida(posAuxiliar, pos) && GetPieceColorAtPos(posAuxiliar) == colorOposat)
 		vectorPos.push_back(posAuxiliar);
 
-	
+
 }
 
 void Chessboard::analisiDiagonals(const ChessPosition& pos, VecOfPositions& vectorPos)
@@ -289,7 +290,7 @@ void Chessboard::analisiCavall(const ChessPosition& pos, VecOfPositions& vectorP
 {
 	ChessPosition posAuxiliar;
 
-	// analitzem les posicions per columnes i nom√©s en les que es pot moure el cavall
+	// analitzem les posicions per columnes i nomÈs en les que es pot moure el cavall
 	for (int i = -2; i <= 2; i++)
 	{
 		posAuxiliar.setPosicioX(pos.getPosicioX() + i);
@@ -318,7 +319,7 @@ void Chessboard::analisiCavall(const ChessPosition& pos, VecOfPositions& vectorP
 }
 
 
-// Aquest procediment analitza una posici√≥ i mira si aquesta entra dins del tauler i si hi ha una fitxa del mateix color
+// Aquest procediment analitza una posiciÛ i mira si aquesta entra dins del tauler i si hi ha una fitxa del mateix color
 bool Chessboard::posicioValida(ChessPosition posAuxiliar, ChessPosition pos)
 {
 	bool esValida = true;
